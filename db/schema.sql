@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS userPost_db;
+CREATE DATABASE userPost_db;
