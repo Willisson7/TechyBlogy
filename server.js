@@ -13,12 +13,17 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// handlebars
 const hbs = exphbs.create({ helpers });
 
-// Configure and link a session object with the sequelize store
 const sess = {
   secret: 'Swallows cant carry Coconuts',
-  cookie: {},
+  cookie: {
+    maxAge: 300000,
+    httpOnly: true,
+    secure: false,
+    sameSite: 'strict',
+  },
   resave: false,
   saveUninitialized: true,
   store: new SequelizeStore({

@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { Article } = require('../../models');
 const withAuth = require('../../utils/auth');
 
+// create new Article
 router.post('/', withAuth, async (req, res) => {
   try {
     const newArticle = await Article.create({
@@ -15,6 +16,26 @@ router.post('/', withAuth, async (req, res) => {
   }
 });
 
+// update existing Article
+router.put('/:id', withAuth, async (req, res) => {
+  try {
+    const eArticle = await Article.update({
+      title: req.body.title,
+      content: req.body.content,
+    },
+      {
+        where: {
+          id: req.params.id,
+        }
+      }
+    );
+    res.status(200).json(eArticle);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
+// Delete Article
 router.delete('/:id', withAuth, async (req, res) => {
   try {
     const articleData = await Article.destroy({
@@ -25,7 +46,7 @@ router.delete('/:id', withAuth, async (req, res) => {
     });
 
     if (!articleData) {
-      res.status(404).json({ message: 'No project found with this id!' });
+      res.status(404).json({ message: 'No Article found with this id!' });
       return;
     }
 

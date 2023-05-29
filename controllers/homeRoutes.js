@@ -1,10 +1,22 @@
 const router = require('express').Router();
-const { Article, User } = require('../models');
+const { Article, User, Comment} = require('../models');
 const withAuth = require('../utils/auth');
 
+
+
+
+// Get All Articles
 router.get('/', async (req, res) => {
   try {
-    // Get all articles and JOIN with user data
+    res.redirect('/homepage');
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+
+router.get('/homepage', async (req, res) => {
+  try {
     const articleData = await Article.findAll({
       include: [
         {
@@ -14,10 +26,10 @@ router.get('/', async (req, res) => {
       ],
     });
 
-    // Serialize data so the template can read it
+    
     const articles = articleData.map((article) => article.get({ plain: true }));
 
-    // Pass serialized data and session flag into template
+   
     res.render('homepage', { 
       articles, 
       logged_in: req.session.logged_in 
@@ -27,6 +39,9 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+
+// Get one Article by Id
 router.get('/article/:id', async (req, res) => {
   try {
     const articleData = await Article.findByPk(req.params.id, {
@@ -34,13 +49,27 @@ router.get('/article/:id', async (req, res) => {
         {
           model: User,
           attributes: ['name'],
-        },
+        }, 
+        {
+          model: Comment,
+          attributes: ['id', 'date_created', 'comment_text', 'blog_id', 'user_id'],
+          include: {
+            model: User,
+            attributes: ['username'],
+          }
+        }
       ],
     });
 
+    // redirect user if already logged in to update 
     const article = articleData.get({ plain: true });
 
-    res.render('article', {
+    if (article.user_id == req.session.user_id) {
+      res.redirect('/article/' + article.id);
+      return;
+    }
+
+    res.render('extraArticle', {
       ...article,
       logged_in: req.session.logged_in
     });
