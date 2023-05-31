@@ -1,5 +1,5 @@
 <div class="text-center">
-  <h2>{{title}}</h2>
+  <h2>{{name}}</h2>
  
   <p>{{description}}</p>
   <p>Created by {{user.name}} on {{format_date date_created}}</p>
@@ -10,11 +10,11 @@
     <form class="form old-article-form">
       <div class="form-group">
         <label for="article-title">Title</label>
-        <input class="form-input" type="text" id="article-title" name="article-title" value="{{title}}" />
+        <input class="form-input" type="text" id="article-title" name="article-title" value="{{name}}" />
       </div>
       <div class="form-group">
         <label for="article-content">Content</label>
-        <textarea class="form-input" id="article-content" name="article-content">{{content}}</textarea>
+        <textarea class="form-input" id="article-content" name="article-content">{{description}}</textarea>
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary form-save" data-id="{{id}}">Save</button>

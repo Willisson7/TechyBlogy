@@ -46,6 +46,7 @@ main {
 nav {
   display: flex;
   background-color: var(--dark);
+  border-radius: 5px;
 }
 
 nav a {

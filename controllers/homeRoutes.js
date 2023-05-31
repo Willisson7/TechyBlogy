@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Article, User, Comment} = require('../models');
+const { Article, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 
@@ -21,18 +21,18 @@ router.get('/homepage', async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['name'],
+          attributes: ['username'],
         },
       ],
     });
 
-    
+
     const articles = articleData.map((article) => article.get({ plain: true }));
 
-   
-    res.render('homepage', { 
-      articles, 
-      logged_in: req.session.logged_in 
+
+    res.render('homepage', {
+      articles,
+      logged_in: req.session.logged_in
     });
   } catch (err) {
     res.status(500).json(err);
@@ -48,11 +48,11 @@ router.get('/article/:id', async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['name'],
-        }, 
+          attributes: ['username'],
+        },
         {
           model: Comment,
-          attributes: ['id', 'date_created', 'comment_text', 'blog_id', 'user_id'],
+          attributes: ['id', 'date_created', 'comment_text', 'article_id', 'user_id'],
           include: {
             model: User,
             attributes: ['username'],
@@ -69,7 +69,7 @@ router.get('/article/:id', async (req, res) => {
       return;
     }
 
-    res.render('extraArticle', {
+    res.render('eArticle', {
       ...article,
       logged_in: req.session.logged_in
     });
@@ -84,7 +84,7 @@ router.get('/profile', withAuth, async (req, res) => {
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
-      include: [{ model: Project }],
+      include: [{ model: Article }],
     });
 
     const user = userData.get({ plain: true });
