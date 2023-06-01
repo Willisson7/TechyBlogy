@@ -6,7 +6,7 @@ const commentButtonHandler = async (event) => {
     if (event.target.hasAttribute('data-id')) {
       const article_id = event.target.getAttribute('data-id');
   
-      const response = await fetch(`/api/comments`, {
+      const response = await fetch(`/api/comment`, {
         method: 'POST',
         body: JSON.stringify({ comment_text, article_id }),
         headers: {
