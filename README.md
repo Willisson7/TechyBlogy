@@ -73,7 +73,7 @@ THEN I am able to view comments but I am prompted to log in again before I can a
 
   [Willisson7 on GitHub](https://github.com/Willisson7)
 
-  [DeployedLink]()
+  [DeployedLink](https://dashboard.heroku.com/apps/protected-taiga-33058/resources?justInstalledAddonServiceId=88f985cd-2c0e-452f-b755-f381335db573)
 
   
   thegwillis@gmail.com
